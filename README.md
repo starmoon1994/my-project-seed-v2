@@ -5,6 +5,9 @@
 - 增强druid的配置 进一步配置监控页面以及spring层的配置
 - 扩展druid的日志 配合logback记录监控日志到文件
 
+2. 20180521
+- 增加对controller层的日志记录 使用aop获取方法和方法参数
+
 
 ---
 #原readme

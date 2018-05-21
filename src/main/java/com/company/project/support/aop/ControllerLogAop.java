@@ -27,13 +27,10 @@ public class ControllerLogAop {
 
     @Before("myPointcutController()")
     public void deBefore(JoinPoint joinPoint) throws Throwable {
-//        System.out.println("@Before：模拟权限检查...");
 //        System.out.println("@Before：目标方法为：" + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 //        System.out.println("@Before：参数为：" + Arrays.toString(joinPoint.getArgs()));
-//        System.out.println("@Before：被织入的目标对象为：" + joinPoint.getTarget());
         logger.info("@Before：目标方法为：{}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         logger.info("@Before：参数为：{}", Arrays.toString(joinPoint.getArgs()));
-        Object[] joinPointArgs = joinPoint.getArgs();
 
     }
 
