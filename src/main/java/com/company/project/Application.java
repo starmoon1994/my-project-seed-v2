@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @ImportResource(locations = {"classpath:spring-bean.xml", "classpath:spring-druid.xml"})
 public class Application {
     public static void main(String[] args) {
+
+
+//        System.exit(SpringApplication.exit(SpringApplication.run(Application.class, args)));
         SpringApplication.run(Application.class, args);
     }
 

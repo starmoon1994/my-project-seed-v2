@@ -71,3 +71,5 @@ CREATE TABLE IF NOT EXISTS `T_ACCOUNT`
     index T_ACCOUNT_LM (LM_DATETIME)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 comment '账户余额表';
+
+
