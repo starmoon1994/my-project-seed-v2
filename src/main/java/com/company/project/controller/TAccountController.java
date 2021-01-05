@@ -1,8 +1,8 @@
 package com.company.project.controller;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
-import com.company.project.model.Country;
-import com.company.project.service.CountryService;
+import com.company.project.model.TAccount;
+import com.company.project.service.TAccountService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,43 +14,42 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by CodeGenerator on 2018/05/18.
-*/
+ * Created by CodeGenerator on 2021/01/05.
+ */
 @RestController
-@RequestMapping("/country")
-public class CountryController {
+@RequestMapping("/t/account")
+public class TAccountController {
     @Resource
-    private CountryService countryService;
+    private TAccountService tAccountService;
 
     @PostMapping("/add")
-    public Result add(Country country) {
-        countryService.save(country);
+    public Result add(TAccount tAccount) {
+        tAccountService.save(tAccount);
         return ResultGenerator.genSuccessResult();
     }
 
     @PostMapping("/delete")
     public Result delete(@RequestParam Integer id) {
-        countryService.deleteById(id);
+        tAccountService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 
     @PostMapping("/update")
-    public Result update(Country country) {
-        countryService.update(country);
+    public Result update(TAccount tAccount) {
+        tAccountService.update(tAccount);
         return ResultGenerator.genSuccessResult();
     }
 
     @PostMapping("/detail")
     public Result detail(@RequestParam Integer id) {
-        Country country = countryService.findById(id);
-        return ResultGenerator.genSuccessResult(country);
+        TAccount tAccount = tAccountService.findById(id);
+        return ResultGenerator.genSuccessResult(tAccount);
     }
 
     @PostMapping("/list")
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
-        PageHelper.orderBy("");
-        List<Country> list = countryService.findAll();
+        List<TAccount> list = tAccountService.findAll();
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
