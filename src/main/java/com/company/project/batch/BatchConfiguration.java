@@ -29,7 +29,7 @@ public class BatchConfiguration {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
-    @Bean
+    @Bean("personItemReader")
     public FlatFileItemReader<Person> reader() {
         return new FlatFileItemReaderBuilder<Person>()
                 .name("personItemReader")
@@ -60,6 +60,25 @@ public class BatchConfiguration {
     @Bean
     public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
         return jobBuilderFactory.get("importUserJob")
+                .incrementer(new RunIdIncrementer())
+                .listener(listener)
+                .flow(step1)
+                .end()
+                .build();
+    }
+
+
+    /**
+     * 注册job2
+     *
+     * @param listener
+     * @param step1
+     * @return Job
+     */
+    @Bean
+    public Job importUserJob2(JobCompletionNotificationListener listener, Step step1) {
+        return jobBuilderFactory.get("importUserJob2")
+//                .listener()
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
                 .flow(step1)
