@@ -31,6 +31,23 @@ CREATE TABLE IF NOT EXISTS `user`
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `user_log`;
+CREATE TABLE IF NOT EXISTS `user_log`
+(
+    `id`            int(11)      NOT NULL AUTO_INCREMENT,
+    `userId`            int(11)      NOT NULL ,
+    `username`      varchar(255) NOT NULL,
+    `password`      varchar(255) NOT NULL,
+    `nick_name`     varchar(255) DEFAULT NULL,
+    `sex`           int(1)       DEFAULT NULL,
+    `register_date` datetime     NOT NULL,
+    `CR_DATETIME` datetime              NOT NULL comment '创建时间',
+    `LM_DATETIME` datetime              NOT NULL comment '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
 -- ----------------------------
 -- Records of user
 -- ----------------------------

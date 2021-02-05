@@ -15,4 +15,9 @@
     </bean>
 
 
+    <bean id="demoUserJobTestUtils" class="org.springframework.batch.test.JobLauncherTestUtils">
+        <property name="job" ref="demoUserJob"/>
+    </bean>
+
+
 </beans>

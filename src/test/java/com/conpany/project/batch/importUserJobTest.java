@@ -4,6 +4,7 @@ import com.company.project.Application;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.StepScopeTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class importUserJobTest {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Test
+    @Test  //JUnit Jupiter
     public void testJob() throws Exception {
 
 
@@ -44,6 +45,9 @@ public class importUserJobTest {
         JobExecution jobExecution = jobLauncherTestUtils.launchStep("step1");
         Assert.assertEquals("COMPLETED", jobExecution.getExitStatus().getExitCode());
     }
+
+
+
 
 
 }
