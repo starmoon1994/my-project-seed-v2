@@ -3,7 +3,7 @@ package com.company.project.core;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
-import tk.mybatis.mapper.entity.Condition;
+
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -24,7 +24,7 @@ public abstract class AbstractService<T> implements Service<T> {
         modelClass = (Class<T>) pt.getActualTypeArguments()[0];
     }
 
-    public void save(T model) {
+  /*  public void save(T model) {
         mapper.insertSelective(model);
     }
 
@@ -71,5 +71,5 @@ public abstract class AbstractService<T> implements Service<T> {
 
     public List<T> findAll() {
         return mapper.selectAll();
-    }
+    }*/
 }

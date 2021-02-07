@@ -1,4 +1,6 @@
-import com.google.common.base.CaseFormat;
+
+import org.mybatis.generator.config.GeneratedKey;
+import org.mybatis.generator.config.ColumnRenamingRule;import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -20,7 +22,7 @@ public class CodeGenerator {
     //JDBC配置，请修改为你项目的实际配置
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/fordemo?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC";
     private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "Aa123456";
+    private static final String JDBC_PASSWORD = "12345678";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");//项目在硬盘上的基础路径
@@ -63,15 +65,15 @@ public class CodeGenerator {
      */
     public static void genCodeByCustomModelName(String tableName, String modelName) {
         genModelAndMapper(tableName, modelName);
-        genService(tableName, modelName);
-        genController(tableName, modelName);
+//        genService(tableName, modelName);
+//        genController(tableName, modelName);
     }
 
 
     public static void genModelAndMapper(String tableName, String modelName) {
         Context context = new Context(ModelType.FLAT);
         context.setId("Potato");
-        context.setTargetRuntime("MyBatis3Simple");
+        context.setTargetRuntime("MyBatis3");  // MyBatis3Simple 是不带Example类的生成模式
         context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
         context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
 
@@ -82,10 +84,10 @@ public class CodeGenerator {
         jdbcConnectionConfiguration.setDriverClass(JDBC_DIVER_CLASS_NAME);
         context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
 
-        PluginConfiguration pluginConfiguration = new PluginConfiguration();
+/*        PluginConfiguration pluginConfiguration = new PluginConfiguration();
         pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
         pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
-        context.addPluginConfiguration(pluginConfiguration);
+        context.addPluginConfiguration(pluginConfiguration);*/
 
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
         javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
@@ -104,6 +106,16 @@ public class CodeGenerator {
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
 
         TableConfiguration tableConfiguration = new TableConfiguration(context);
+//        tableConfiguration.setDeleteByPrimaryKeyStatementEnabled(false);
+        tableConfiguration.setInsertStatementEnabled(true);
+        tableConfiguration.setSelectByPrimaryKeyStatementEnabled(true);
+        tableConfiguration.setUpdateByPrimaryKeyStatementEnabled(true);
+        tableConfiguration.setSelectByExampleStatementEnabled(true);
+//        tableConfiguration.setDeleteByExampleStatementEnabled(false);
+        tableConfiguration.setCountByExampleStatementEnabled(true);
+        tableConfiguration.setUpdateByExampleStatementEnabled(true);
+        tableConfiguration.setAllColumnDelimitingEnabled(true);
+
         tableConfiguration.setTableName(tableName);
         if (StringUtils.isNotEmpty(modelName))tableConfiguration.setDomainObjectName(modelName);
         tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));

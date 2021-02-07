@@ -1,10 +1,15 @@
 package com.conpany.project;
 
+import com.alibaba.fastjson.JSONObject;
+import com.company.project.mapper.TAccountMapper;
 import com.company.project.model.TAccount;
-import com.company.project.service.impl.TAccountServiceImpl;
+import com.company.project.model.TAccountExample;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,8 +18,9 @@ import java.util.Random;
 
 public class AccountTest extends BaseTester {
 
-    @Autowired
-    private TAccountServiceImpl tAccountService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Resource
+    private TAccountMapper tAccountMapper;
 
     @Test
     public void test1() {
@@ -33,9 +39,20 @@ public class AccountTest extends BaseTester {
             tAccount.setLmDatetime(new Date());
             tAccount.setVersion(0);
             tAccountList.add(tAccount);
+            tAccountMapper.insertSelective(tAccount);
+
+
+            TAccountExample tAccountExample = new TAccountExample();
+            TAccountExample.Criteria criteria = tAccountExample.createCriteria();
+            criteria.andGlobalIdEqualTo("G" + i);
+
+            List<TAccount> tAccountsInDB = tAccountMapper.selectByExample(tAccountExample);
+            logger.info("tAccountsInDB={}", JSONObject.toJSONString(tAccountsInDB));
         }
 
 
-        tAccountService.save(tAccountList);
+
+        // https://blog.csdn.net/supzhili/article/details/102650573
+//        tAccountMapper.in(tAccountList);
     }
 }
