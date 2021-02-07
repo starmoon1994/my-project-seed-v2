@@ -5,7 +5,6 @@ import com.company.project.mapper.TAccountMapper;
 import com.company.project.model.TAccount;
 import com.company.project.model.TAccountExample;
 import com.company.project.service.TAccountService;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class AccountTest extends BaseTester {
 
@@ -78,7 +74,6 @@ public class AccountTest extends BaseTester {
             List<TAccount> tAccountsInDB = tAccountMapper.selectByExample(tAccountExample);
             logger.info("tAccountsInDB={}", JSONObject.toJSONString(tAccountsInDB));
         }
-
 
 
         // https://blog.csdn.net/supzhili/article/details/102650573
