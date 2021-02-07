@@ -1,4 +1,4 @@
-package ${basePackage}.service.impl;
+package ${basePackage}.service;
 
 import ${basePackage}.mapper.${modelNameUpperCamel}Mapper;
 import ${basePackage}.model.${modelNameUpperCamel};
@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Transactional
-public class ${modelNameUpperCamel}ServiceImpl extends AbstractService<${modelNameUpperCamel}> implements ${modelNameUpperCamel}Service {
+public class ${modelNameUpperCamel}ServiceImpl  implements ${modelNameUpperCamel}Service {
     @Resource
     private ${modelNameUpperCamel}Mapper ${modelNameLowerCamel}Mapper;
 

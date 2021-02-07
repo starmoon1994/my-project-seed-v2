@@ -4,13 +4,13 @@
     <!--配置变量-->
     <!--文件路径前缀-->
     <property name="LOG_HOME_PATH" value="file_logs"/>
-    <property name="encoder_pattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %-5level [%thread] [%c{0}:%L] : %msg%n"/>
+    <property name="encoder_pattern" value="%d{yyyy/MM/dd HH:mm:ss.SSS} %-5level [%thread] [%X{traceId}] [%c{0}:%L] : %msg%n"/>
     <property name="maxHistory" value="60"/>
     <property name="maxFileSize" value="10MB"/>
 
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${encoder_pattern}</pattern>
             <charset>UTF-8</charset>
         </encoder>
@@ -25,14 +25,14 @@
                 <maxFileSize>${maxFileSize}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <encoder>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${encoder_pattern}</pattern>
             <charset>UTF-8</charset>
         </encoder>
 
     </appender>
 
-    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+   <!-- <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME_PATH}/level_info.%d.%i.log</fileNamePattern>
@@ -50,10 +50,10 @@
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-    </appender>
+    </appender>-->
 
 
-    <appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--<appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 
             <fileNamePattern>${LOG_HOME_PATH}/level_debug.%d.%i.log</fileNamePattern>
@@ -71,7 +71,7 @@
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-    </appender>
+    </appender>-->
 
     <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -161,14 +161,14 @@
         </appender>-->
 
     <!-- 异步INFO输出 -->
-    <appender name ="ASYNC_INFO" class= "ch.qos.logback.classic.AsyncAppender">
-        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+<!--    <appender name ="ASYNC_INFO" class= "ch.qos.logback.classic.AsyncAppender">
+        &lt;!&ndash; 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 &ndash;&gt;
         <discardingThreshold>0</discardingThreshold>
-        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        &lt;!&ndash; 更改默认的队列的深度,该值会影响性能.默认值为256 &ndash;&gt;
         <queueSize>512</queueSize>
-        <!-- 添加附加的appender,最多只能添加一个 -->
+        &lt;!&ndash; 添加附加的appender,最多只能添加一个 &ndash;&gt;
         <appender-ref ref ="FILE_INFO"/>
-    </appender>
+    </appender>-->
 
     <!-- 异步输出 -->
     <appender name ="ASYNC_CONTROLLER_LOG" class= "ch.qos.logback.classic.AsyncAppender">
@@ -181,11 +181,11 @@
     </appender>
 
     <!-- 控制台输出日志级别 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE_All"/>
-        <appender-ref ref="FILE_DEBUG"/>
-        <appender-ref ref="ASYNC_INFO"/>
+<!--        <appender-ref ref="FILE_DEBUG"/>-->
+<!--        <appender-ref ref="ASYNC_INFO"/>-->
         <appender-ref ref="FILE_ERROR"/>
         <!--<appender-ref ref="FILE_SELF"/>-->
     </root>

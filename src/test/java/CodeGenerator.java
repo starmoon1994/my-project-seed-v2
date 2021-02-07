@@ -1,6 +1,4 @@
-
-import org.mybatis.generator.config.GeneratedKey;
-import org.mybatis.generator.config.ColumnRenamingRule;import com.google.common.base.CaseFormat;
+import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -49,6 +47,7 @@ public class CodeGenerator {
     /**
      * 通过数据表名称生成代码，Model 名称通过解析数据表名称获得，下划线转大驼峰的形式。
      * 如输入表名称 "t_user_detail" 将生成 TUserDetail、TUserDetailMapper、TUserDetailService ...
+     *
      * @param tableNames 数据表名称...
      */
     public static void genCode(String... tableNames) {
@@ -60,12 +59,13 @@ public class CodeGenerator {
     /**
      * 通过数据表名称，和自定义的 Model 名称生成代码
      * 如输入表名称 "t_user_detail" 和自定义的 Model 名称 "User" 将生成 User、UserMapper、UserService ...
+     *
      * @param tableName 数据表名称
      * @param modelName 自定义的 Model 名称
      */
     public static void genCodeByCustomModelName(String tableName, String modelName) {
         genModelAndMapper(tableName, modelName);
-//        genService(tableName, modelName);
+        genService(tableName, modelName);
 //        genController(tableName, modelName);
     }
 
@@ -76,6 +76,10 @@ public class CodeGenerator {
         context.setTargetRuntime("MyBatis3");  // MyBatis3Simple 是不带Example类的生成模式
         context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
         context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
+        context.addProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_ALL_COMMENTS, "true");
+        context.addProperty(PropertyRegistry.COMMENT_GENERATOR_ADD_REMARK_COMMENTS, "true");
+        context.addProperty(PropertyRegistry.COMMENT_GENERATOR_DATE_FORMAT, "yyyyMMdd hh:MM:ss");
+
 
         JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
         jdbcConnectionConfiguration.setConnectionURL(JDBC_URL);
@@ -88,6 +92,12 @@ public class CodeGenerator {
         pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
         pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
         context.addPluginConfiguration(pluginConfiguration);*/
+
+        PluginConfiguration pluginConfiguration = new PluginConfiguration();
+        pluginConfiguration.setConfigurationType("org.mybatis.generator.plugins.ToStringPlugin");
+        pluginConfiguration.addProperty("useToStringFromRoot", "true");
+        context.addPluginConfiguration(pluginConfiguration);
+
 
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
         javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
@@ -117,7 +127,7 @@ public class CodeGenerator {
         tableConfiguration.setAllColumnDelimitingEnabled(true);
 
         tableConfiguration.setTableName(tableName);
-        if (StringUtils.isNotEmpty(modelName))tableConfiguration.setDomainObjectName(modelName);
+        if (StringUtils.isNotEmpty(modelName)) tableConfiguration.setDomainObjectName(modelName);
         tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
         context.addTableConfiguration(tableConfiguration);
 
